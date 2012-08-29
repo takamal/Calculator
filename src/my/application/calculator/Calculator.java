@@ -148,32 +148,44 @@ public class Calculator extends Activity {
     	String strDecimal="";
     	String strInt="";
     	String fText="";
+
     	
     	if(strNum.length()>0){    		
     		
     				Integer decimalPoint=strNum.indexOf(".");
     				if(decimalPoint>-1){	//小数点が入力されたか、今まであったか？
 								
-    							strDecimal=strNum.substring(decimalPoint);
-//    							strDecimal=strDecimal.substring(1);							//少数点が入っているところを削除
-								Log.d("小数点以下の値注目１：", strDecimal);
+    							strDecimal=strNum.substring(decimalPoint);					//引数から後ろを切り取る装置
 								strInt=strNum.substring(0,decimalPoint);
-								Log.d("小数点より上の値２：", strInt);
+
     				}else{
     							strInt=strNum;
-    							Log.d("小数点より上の値	３：", strInt);
     				}
-
-    				fText=(Integer.toHexString(Integer.parseInt(strInt))) + strDecimal;
     				
-    				//16進数へ変換するコードを書く---------------------------------------
+    				Log.d("strDecimal(少数点)：", strDecimal);
+    				Log.d("strint(通常)　　　　：", strInt);
+    				fText=(Integer.toHexString(Integer.parseInt(strInt))) + strDecimal;
+
+					
+//					
+//    				
+//    				１６進数へ変換できるコードver.2---------------------------------------------------------
+//					if (strDecimal != "."){
+//						fText=(Integer.toHexString(Integer.parseInt(strInt))) 
+//								+ (Integer.toHexString(Integer.parseInt(strDecimal.substring(1))));						
+//					}
+//					else{
+//						fText=(Integer.toHexString(Integer.parseInt(strInt)));						
+//					}
+//    				//16進数へ変換するコードを書く---------------------------------------
 
 //    				fText=(Integer.toHexString(Integer.parseInt(strInt)));
 //    				if(decimalPoint>-1){
+//						strDecimal=strDecimal.substring(1);							//少数点が入っているところを削除
 //    					String bText = "." + (Integer.toHexString(Integer.parseInt(strDecimal)));
 //    					fText = fText + bText;
 //    				}
-//    				Log.d("小数点以下の値注目４：", strDecimal);
+//    				Log.d("代入直後の値４：", strDecimal);
 
 					//-----------------------------------------------    				
     				
