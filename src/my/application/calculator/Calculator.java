@@ -3,6 +3,7 @@ package my.application.calculator;
 import java.math.BigDecimal;
 //import java.text.DecimalFormat;
 
+import android.R.string;
 import android.app.Activity;//def
 import android.os.Bundle;//def
 
@@ -44,10 +45,10 @@ public class Calculator extends Activity {
     	
     	String strInKey=((Button)v).getText().toString();			//押したボタンのインスタンス生成、すかさずストリング型で保持
     	if(strInKey.equals(".")){									//押されたボタンが"."ドットだった場合、
-					if(strTemp.length() == 0){								//先頭が０でしたら、”0.”を表示する。
+					if(strTemp.length() == 0){								//文字列が０だったら、”0.”を表示する。
 		    			strTemp="0.";
 		    		}else{
-		    			if(strTemp.indexOf(".")==-1){		//先頭が０ではなかった場合。＆　最初の一行が.ドットでだった場合は
+		    			if(strTemp.indexOf(".")==-1){		//.ドットがこれまで入力されていない場合
 		    				strTemp=strTemp+".";	//押されたボタンの前、小数点があれば、ドットを入力する
 		    			}
 		    		}
@@ -145,13 +146,14 @@ public class Calculator extends Activity {
     private void showNumber(String strNum){
 	
 //    	DecimalFormat form=new DecimalFormat("#,###0");
-    	String strDecimal="";
-    	String strInt="";
-    	String fText="";
+    	String strDecimal = "";
+    	String strInt = "";
+    	String fText = "";
+		String aText = "";
 
     	
     	if(strNum.length()>0){    		
-    		
+    				
     				Integer decimalPoint=strNum.indexOf(".");
     				if(decimalPoint>-1){	//小数点が入力されたか、今まであったか？
 								
@@ -162,36 +164,32 @@ public class Calculator extends Activity {
     							strInt=strNum;
     				}
     				
-    				Log.d("strDecimal(少数点)：", strDecimal);
-    				Log.d("strint(通常)　　　　：", strInt);
-    				fText=(Integer.toHexString(Integer.parseInt(strInt))) + strDecimal;
-
-					
-//					
-//    				
-//    				１６進数へ変換できるコードver.2---------------------------------------------------------
-//					if (strDecimal != "."){
-//						fText=(Integer.toHexString(Integer.parseInt(strInt))) 
-//								+ (Integer.toHexString(Integer.parseInt(strDecimal.substring(1))));						
-//					}
-//					else{
-//						fText=(Integer.toHexString(Integer.parseInt(strInt)));						
-//					}
-//    				//16進数へ変換するコードを書く---------------------------------------
-
-//    				fText=(Integer.toHexString(Integer.parseInt(strInt)));
-//    				if(decimalPoint>-1){
-//						strDecimal=strDecimal.substring(1);							//少数点が入っているところを削除
-//    					String bText = "." + (Integer.toHexString(Integer.parseInt(strDecimal)));
-//    					fText = fText + bText;
-//    				}
-//    				Log.d("代入直後の値４：", strDecimal);
-
-					//-----------------------------------------------    				
     				
+    				
+    				Log.d("strDecimal(少数点)：", strDecimal);
+//    				Log.d("strint(通常)　　　 ：", strInt);
+    				//-----------------------------------------------	１６進数変換version.3
+    				
+    		    	if(strDecimal.equals(".")){									//切り離された文字列が"."ドットだけの場合、スルー
+
+    		    	}else{														//切り離された文字列が"."ドットと文字列の組み合わせの場合
+    		    		if(strTemp.indexOf(".")==-1){		//.ドットがこれまで入力されていない場合
+    		    											//数字だけの場合スルー
+    		    		}else{								//文字列＋ドットの場合
+    		    			 aText = strDecimal.substring(1);	//文字列から頭のドットを取り除く
+    		    			 aText = (Integer.toHexString(Integer.parseInt(aText)));	//そして１６進数の変換
+    		    			 aText = "." + aText;										//切り離したドットを再入する
+    		    		}
+    		    		
+    		    	}
+    		    	//-----------------------------------------------
+    		    	fText=(Integer.toHexString(Integer.parseInt(strInt))) + aText;
+    		    	
     	}else fText="0";
     	
-		((TextView)findViewById(R.id.DisplayPanel)).setText(fText);    							
+		((TextView)findViewById(R.id.DisplayPanel)).setText(fText);
+		Log.d("表示後のstrDecimal(少数点)：", strDecimal);
+		Log.d("表示後のstrint(通常)　　　 ：", strInt);
     }
 
     private String doCalc(){
@@ -256,3 +254,25 @@ public class Calculator extends Activity {
   
 
     
+
+
+//１６進数へ変換できるコードver.2---------------------------------------------------------
+/*
+    		    	if (strDecimal != "."){
+						fText=(Integer.toHexString(Integer.parseInt(strInt))) 
+								+ (Integer.toHexString(Integer.parseInt(strDecimal.substring(1))));						
+					}
+					else{
+						fText=(Integer.toHexString(Integer.parseInt(strInt)));						
+					}
+    				//16進数へ変換するコードを書く---------------------------------------
+
+    				fText=(Integer.toHexString(Integer.parseInt(strInt)));
+    				if(decimalPoint>-1){
+						strDecimal=strDecimal.substring(1);							//少数点が入っているところを削除
+    					String bText = "." + (Integer.toHexString(Integer.parseInt(strDecimal)));
+    					fText = fText + bText;
+    				}
+    				Log.d("代入直後の値４：", strDecimal);
+ */
+//-----------------------------------------------    				
